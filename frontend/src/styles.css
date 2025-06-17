@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.boards-display {
+    background-color: orange;
+    width: 75%;
+    height: 100%;
+    padding-bottom: 100%;
+    /* margin-left: 1%; */
+    max-width: 100%;
+    border: dotted #ccc 2px;
+}

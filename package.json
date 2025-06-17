@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "run-services": "pm2 serve /app/frontend 80 --name boardwall --spa -f && java -jar /app/backend/boardwall.jar"
+    }
+}

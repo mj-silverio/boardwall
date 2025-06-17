@@ -1,0 +1,14 @@
+div {
+    height: 100%;
+    width: 100%;
+}
+
+/* .general {
+    margin-left: 1%
+} */
+
+.import-data, .export-data {
+    margin: 1%;
+    width: 50%;
+    height: 50%;
+}

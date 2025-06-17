@@ -1,0 +1,7 @@
+.board-editor-boundary {
+    width: 800px;
+    height: 400px;
+    max-width: 100%;
+    border: dotted #ccc 2px;
+    /* background-color: blueviolet; */
+}

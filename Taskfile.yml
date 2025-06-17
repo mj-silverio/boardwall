@@ -1,0 +1,171 @@
+version: '3'
+
+env:
+  VERSION: "v1.0.0"
+  MESSAGE: |
+    * Initial release of Boardwall
+
+  DB_HOST: "localhost"
+  DB_PORT: "8432"
+  PGPASSWORD: "postgres"
+  DB_NAME: "boardwall"
+  DB_USER: "postgres"
+vars:
+  DB_BACKUP_DIR: "/home/$USER/boardwall-backups"
+  AMD64: "amd64"
+
+tasks:
+  commit:
+    desc: Committing changes
+    cmds:
+      - |
+        git add .
+        git commit -m "{{.VERSION}} {{.MESSAGE}}"
+        git push -f
+        # git tag -d "{{.VERSION}}"
+        # git push origin --delete "{{.VERSION}}"
+        git tag -a "{{.VERSION}}" -m "Version {{.VERSION}}"
+        git push -uf origin --tags
+
+  run:frontend:
+    desc: Run the frontend application
+    dir: frontend
+    dotenv: ['../.env.dev']
+    cmds:
+      - yarn run start:dev
+
+  run:backend:
+    desc: Run the backend application
+    dir: backend
+    dotenv: ['../.env.dev']
+    cmds:
+      - sh run.sh
+
+  build:frontend:
+    desc: Build the application
+    dir: frontend
+    cmds:
+      - yarn run prebuild
+      - yarn run build:dev
+
+  build:backend:
+    desc: Build the backend
+    dir: backend
+    cmds:
+      - mvn clean install
+      - mvn dependency:go-offline
+      - mvn clean package -DskipTests
+
+  build-and-run-amd64-1:
+    desc: Build boardwall-aio amd64-1
+    dir: "./"
+    env:
+      ARCH: "amd64"
+    cmds: 
+      - |
+        cp .env.1 .env
+        mv frontend/node_modules .
+        # docker stop boardwall-aio-${ARCH}-1
+        echo y | docker image prune
+        # docker buildx create --name mybuilder --use
+        # docker buildx inspect mybuilder --bootstrap
+        docker buildx build \
+          --platform linux/${ARCH} \
+          --load \
+          -t boardwall-aio:latest-${ARCH} -f Dockerfile .
+        # docker network create datanet
+        docker compose -f docker-compose-1.yml up -d
+        mv node_modules frontend/
+        docker logs -f boardwall-aio-${ARCH}-1
+
+  build-and-run-amd64-2:
+    desc: Build boardwall-aio amd64-2
+    dir: "./"
+    env:
+      ARCH: "amd64"
+    cmds:
+      - |
+        cp .env.2 .env
+        mv frontend/node_modules .
+        # docker stop boardwall-aio-${ARCH}-2
+        echo y | docker image prune
+        # docker buildx create --name mybuilder --use
+        # docker buildx inspect mybuilder --bootstrap
+        docker buildx build \
+          --platform linux/${ARCH} \
+          --load \
+          -t boardwall-aio:latest-${ARCH} -f Dockerfile .
+        # docker network create datanet
+        docker compose -f docker-compose-2.yml up -d
+        mv node_modules frontend/
+        docker logs -f boardwall-aio-${ARCH}-2
+
+  build-and-run-arm64-1:
+    desc: Build boardwall-aio arm64-1
+    dir: "./"
+    env:
+      ARCH: "arm64"
+    cmds: 
+      - |
+        cp .env.1 .env
+        mv frontend/node_modules .
+        # docker stop boardwall-aio-${ARCH}-1
+        echo y | docker image prune
+        # docker buildx create --name mybuilder --use
+        # docker buildx inspect mybuilder --bootstrap
+        docker buildx build \
+          --platform linux/${ARCH} \
+          --load \
+          -t boardwall-aio:latest-${ARCH} -f Dockerfile .
+        # docker network create datanet
+        docker compose -f docker-compose-1.yml up -d
+        mv node_modules frontend/
+        docker logs -f boardwall-aio-${ARCH}-1
+
+
+  build-and-run-arm64-2:
+    desc: Build boardwall-aio arm64-2
+    dir: "./"
+    env:
+      ARCH: "arm64"
+    cmds:
+      - |
+        cp .env.2 .env
+        mv frontend/node_modules .
+        # docker stop boardwall-aio-${ARCH}-2
+        echo y | docker image prune
+        # docker buildx create --name mybuilder --use
+        # docker buildx inspect mybuilder --bootstrap
+        docker buildx build \
+          --platform linux/${ARCH} \
+          --load \
+          -t boardwall-aio:latest-${ARCH} -f Dockerfile .
+        # docker network create datanet
+        docker compose -f docker-compose-2.yml up -d
+        mv node_modules frontend/
+        docker logs -f boardwall-aio-${ARCH}-2
+
+  stop:
+    desc: Stop the application
+    cmds:
+      - docker compose down -v
+  
+  db:connect:
+    desc: Connect to the database
+    cmds:
+      - psql -h localhost -p 8432 -U postgres -d boardwall
+
+  db:backup:
+    desc: Backing up database
+    dir: '{{.DB_BACKUP_DIR}}'
+    cmds:
+      - pg_dump -d $DB_NAME -h $DB_HOST -p $DB_PORT -U $DB_USER -F c > backup_$(date +%m%d%Y_%H%M%S).dump
+      - ls -lrta
+
+  db:restore:
+    desc: Restoring database
+    dir: '{{.DB_BACKUP_DIR}}'
+    env:
+      DATE: "05112025_135107"
+    cmds:
+      - pg_restore -v --clean --if-exists -d $DB_NAME -h $DB_HOST -p $DB_PORT -U $DB_USER backup_$DATE.dump

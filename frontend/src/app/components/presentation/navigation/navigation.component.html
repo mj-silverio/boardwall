@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/home">Boardwall</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- <li class="nav-item active">
+                    <a class="nav-link" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Main
+                        Menu</a>
+                </li>-->
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/canvas-editor" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">Canvas Editor</a>
+                </li> 
+                <!--  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">Quick Links</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="https://www.jw.org/en/news" target="_blank">JW News</a>
+                        <a class="dropdown-item" href="/news" target="_blank">My News Services</a>
+                        <hr />
+                        <a class="dropdown-item" href="http://192.168.1.163:4202" target="_blank">Prios Dashboard</a>
+                        <a class="dropdown-item" href="http://192.168.1.163:4203" target="_blank">Best For Trading
+                            Dashboard</a>
+                        <a class="dropdown-item" href="http://192.168.1.163:4204" target="_blank">Personal Banking</a>
+                        <a class="dropdown-item" href="http://192.168.1.163:4205" target="_blank">RMRS</a>
+                        <a class="dropdown-item" href="http://192.168.1.163:4206" target="_blank">Jobs Board</a>
+                    </div>
+                </li>-->
+            </ul>
+            <div class="nav-item dropdown">
+                <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <!-- <li>
+                        <a class="dropdown-item" href="#bannerformmodal" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">About and
+                            Version</a>
+                    </li> -->
+                    <li><a class="dropdown-item" routerLink="/import-export">Import and Export</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" routerLink="/settings">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="app-router-ctr">
+    <router-outlet />
+</div>

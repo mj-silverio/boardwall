@@ -1,0 +1,13 @@
+.main-menu {
+    background-color: darkorange;
+    padding-bottom: 100%;
+    /* display: flex;
+    align-items: stretch; */
+}
+
+.title, .menu-options {
+    border: 2px solid black;
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+}

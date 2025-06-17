@@ -1,0 +1,35 @@
+<div class="main-menu">
+    <div class="title">
+        <h1>Boardwall</h1>
+    </div>
+    <div class="menu-options">
+        <h2>Existing Boards ({{boardsLength}})</h2>
+        <div *ngFor="let board of boards">
+            <app-board-display
+            [boardName] = "board.name"
+            [boardDescription] = "board.description"
+            [board] = "board"
+            [myBoards] = "boards"
+            [isDeleteModeEnabled]="settings.deleteModeEnabled"
+            (updateBoardIdEvent)="updateBoardId(board.id)"
+            (updateBoardEvent)="updateBoardsUI(board.id)"
+            (deleteBoardEvent)="deleteBoardsUI(board.id)"
+            ></app-board-display>
+        </div>
+        <hr />
+        <h2>Create Board</h2>
+        <form class="form-group" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <br />
+            <label><b>Create new sticky note here:</b></label>
+            <br /><br />
+            <label>Name:</label>
+            <textarea class="form-control" name="name" placeholder="Name" formControlName="textAreaName" cols="1"
+                rows="1"></textarea>
+            <label>Description:</label>
+            <textarea class="form-control" name="description" placeholder="Description"
+                formControlName="textAreaDescription" cols="10" rows="10"></textarea>
+            <br /><br />
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

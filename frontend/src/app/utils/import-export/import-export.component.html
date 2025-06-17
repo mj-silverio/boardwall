@@ -1,0 +1,45 @@
+<!-- 
+// TODO
+Input -> Paste json -> Board selector -> Okay -> Import filtered or all -> Add to post API -> DB
+
+Export -> Select boards -> Okay -> Get board API -> -Export filtered or all json
+SQL export of board and stickynotes
+
+-->
+<div class="export-data">
+    <h1>Backup Service</h1>
+    <div>
+        <h2>Boards ({{boardsLength}})</h2>
+        <div *ngFor="let board of boards">
+            <app-board-display [boardName]="board.name" [board]="board" [myBoards]="boards" [isBackupMode]="true"
+                (chosenBoardIdEvent)="chosenBoard(board.id)"></app-board-display>
+        </div>
+    </div>
+    <div>
+        <h2>Export Data</h2>
+        <button class="btn btn-primary" (click)="exportData()">Export Data</button>
+    </div>
+</div>
+<br /><br />
+<hr />
+<div class="import-data">
+    <h2>Import Data</h2>
+
+    <form class="form-group" [formGroup]="myForm" (ngSubmit)="importBoardData()">
+        <br /><br />
+        <div *ngIf="newBoardId != null">
+            <label>Board ID: <b>{{newBoardId}}</b></label>
+        </div>
+        <br /><br />
+        <label>Imported Board Name JSON:</label>
+        <textarea class="form-control" name="board-name" placeholder="Imported Board Info JSON"
+            formControlName="textAreaBoardInfo" cols="10" rows="10"></textarea>
+        <label>Imported Sticky Notes By Board ID JSON:</label>
+        <textarea class="form-control" name="sticky-notes-by-board-id"
+            placeholder="Imported Sticky Notes By Board ID JSON" formControlName="textAreaStickyNotesByBoardId"
+            cols="10" rows="10"></textarea>
+        <br /><br />
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+</div>

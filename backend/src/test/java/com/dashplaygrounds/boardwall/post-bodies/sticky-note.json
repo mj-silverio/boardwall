@@ -1,0 +1,95 @@
+{
+    "id": 1,
+    "title": "test-sticky-001",
+    "content": "test sticky note",
+    "color": "#FF5733",
+    "position": {
+        "x": 100,
+        "y": 100
+    },
+    "size": "small",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 2,
+    "title": "test-sticky-002",
+    "content": "test sticky note",
+    "color": "#FF5733",
+    "position": {
+        "x": 300,
+        "y": 100
+    },
+    "size": "medium",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 3,
+    "title": "test-sticky-003",
+    "content": "working!",
+    "color": "#FF5733",
+    "position": {
+        "x": 300,
+        "y": 300
+    },
+    "size": "large",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 4,
+    "title": "test-sticky-004",
+    "content": "working!",
+    "color": "#FF5733",
+    "position": {
+        "x": 300,
+        "y": 300
+    },
+    "size": "large",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 5,
+    "title": "test-sticky-005",
+    "content": "working!",
+    "color": "#FF5733",
+    "position": {
+        "x": 300,
+        "y": 300
+    },
+    "size": "medium",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 6,
+    "title": "test-sticky-006",
+    "content": "working!",
+    "color": "#FF5733",
+    "position": {
+        "x": 100,
+        "y": 100
+    },
+    "size": "small",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 7,
+    "title": "test-sticky-007",
+    "content": "working!",
+    "color": "#FF5733",
+    "position": {
+        "x": 100,
+        "y": 100
+    },
+    "size": "small",
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+}
+// [{ id: '1', title: 'Note 1', content: 'Content 1', color: this.randomHexColorCode(), position: { x: 0, y: 0 } },
+// { id: '2', title: 'Note 2', content: 'Content 2', color: this.randomHexColorCode(), position: { x: 100, y: 100 } },
+// { id: '3', title: 'Note 3', content: 'Content 3', color: this.randomHexColorCode(), position: { x: 200, y: 100 } },
+// ];

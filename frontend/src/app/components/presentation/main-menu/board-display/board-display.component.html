@@ -1,0 +1,35 @@
+<div *ngIf="editViewDisabled">
+    <div class="board" (click)="updatingBoardId(board.id)">
+        <h6>{{boardName}}</h6>
+        <p style="font: 10px">{{boardDescription}}</p>
+        <div *ngIf="!isBackupMode else other_content">
+            <button class="btn btn-primary" (click)="forRouting(board.id)">
+                Go
+            </button>
+            <button class="btn btn-secondary" (click)="editingMode(board.id)">
+                <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteBoard(board.id)" *ngIf="isDeleteModeEnabled">Delete</button>
+        </div>
+        <ng-template #other_content>
+            <button class="btn btn-primary" [disabled]="chooseBoardButtonViewDisabled" (click)="chooseBoard(board.id)">
+                Choose
+            </button>
+        </ng-template>
+    </div>
+</div>
+<div *ngIf="!editViewDisabled;">
+    <!-- <div *ngIf="!editViewDisabled;else other_content"> -->
+    <form class="form-group" [formGroup]="formEdit" (ngSubmit)="onSubmitUpdate(board.id)">
+        <div class="board">
+            <textarea class="form-control" name="name" placeholder="New board name" formControlName="boardAreaName"
+                cols="1" rows="1"></textarea>
+            <textarea class="form-control" name="description" placeholder="New board description"
+                formControlName="boardAreaDescription" cols="1" rows="1"></textarea>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<!-- <ng-template #other_content> -->
+<!-- <h1>here</h1> -->
+<!-- </ng-template> -->

@@ -1,0 +1,9 @@
+<div class="board-boundary">
+    <app-sticky-note *ngFor="let note of stickyNotes" 
+        [noteId]="note.id"
+        [noteColor]="note.color" 
+        [noteTitle]="note.title" 
+        [noteContent]="note.content"
+        [notePosition]="note.position"
+        ></app-sticky-note>
+</div>

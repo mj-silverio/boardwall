@@ -1,0 +1,10 @@
+{
+    "id": 1,
+    "name": "test-category-001",
+    "description": "test category",
+    "color": "#FF5733",
+    "position": 10,
+    "boardWallId": 1,
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+}

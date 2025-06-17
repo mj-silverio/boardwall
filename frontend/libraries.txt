@@ -1,0 +1,11 @@
+bootstrap@5
+bootstrap-icons
+@popperjs/core
+jquery
+@angular/material
+@angular/cdk
+@angular/animations
+luxon
+jszip
+file-saver
+dotenv

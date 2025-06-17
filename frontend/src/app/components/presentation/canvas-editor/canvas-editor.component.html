@@ -1,0 +1,80 @@
+<div class="dropdown">
+    <select class="form-control" (change)="changeBoard($event)">
+        <option value="" selected>Choose a board</option>
+        <option value="{{board.name}}" *ngFor="let board of boards">{{ board.name }}</option>
+    </select>
+</div>
+<div class="modes">
+    <button class="btn btn-secondary" (click)="createModeFunc()" *ngIf="editMode">Create new sticky note here</button>
+    <button class="btn btn-secondary" (click)="editModeFunc()" *ngIf="!editMode">Edit sticky note here</button>
+</div>
+
+<div class="canvas-editor-boundary">
+    <div class="boards-display"> <!-- From global styling -->
+        <!-- Active board and Edit sticky note -->
+
+        <app-sticky-note *ngFor="let note of stickyNotes" [noteTitle]="note.title" [noteContent]="note.content"
+            [noteColor]="note.color" [notePosition]="note.position" [noteId]="note.id" [noteSize]="note.size"
+            [noteBoardId]="note.boardId" [noteCreatedAt]="note.createdAt"
+            [noteUpdatedAt]="note.updatedAt" [note]="note" (updateNoteEvent)="populateForm($event)"></app-sticky-note>
+    </div>
+
+    <div class="editor-display" *ngIf="editMode">
+        <form class="form-group" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <br />
+            <label><b>Edit your sticky note here:</b></label>
+            <br /><br />
+            <label>Title:</label>
+            <textarea class="form-control" name="title" placeholder="Title" formControlName="textAreaTitle" cols="1" rows="1"></textarea>
+            <label>Content:</label>
+            <textarea class="form-control" name="content" placeholder="Content" formControlName="textAreaContent" cols="10" rows="10"></textarea>
+            <label>Color: <b>{{activeColor}}</b></label>
+            <div class="dropdown">
+                <select class="form-control" (change)="changeColor($event)" [disabled]="viewDisabled">
+                    <option value="" selected>Choose a color</option>
+                    <option value="{{color.value}}" *ngFor="let color of colors">{{ color.key }}</option>
+                </select>
+            </div>
+            <label>Size: <b>{{activeSize}}</b></label>
+            <div class="dropdown">
+                <select class="form-control" (change)="changeSize($event)" [disabled]="viewDisabled">
+                    <option value="" selected>Choose a size</option>
+                    <option value="{{size.value}}" *ngFor="let size of sizes">{{ size.key }}</option>
+                </select>
+            </div>
+            <br /><br />
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <br /><br />
+            <button class="btn btn-danger" (click)="deleteStickyNote()">Delete</button>
+        </form>
+    </div>
+
+    <div class="create-display" *ngIf="!editMode">
+        <form class="form-group" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <br />
+            <label><b>Create new sticky note here:</b></label>
+            <br /><br />
+            <label>Title:</label>
+            <textarea class="form-control" name="title" placeholder="Title" formControlName="textAreaTitle" cols="1" rows="1"></textarea>
+            <label>Content:</label>
+            <textarea class="form-control" name="content" placeholder="Content" formControlName="textAreaContent" cols="10" rows="10"></textarea>
+            <label>Color: <b>{{activeColor}}</b></label>
+            <div class="dropdown">
+                <select class="form-control" (change)="changeColor($event)">
+                    <option value="" selected>Choose a color</option>
+                    <option value="{{color.value}}" *ngFor="let color of colors">{{ color.key }}</option>
+                </select>
+            </div>
+            <label>Size: <b>{{activeSize}}</b></label>
+            <div class="dropdown">
+                <select class="form-control" (change)="changeSize($event)">
+                    <option value="" selected>Choose a size</option>
+                    <option value="{{size.value}}" *ngFor="let size of sizes">{{ size.key }}</option>
+                </select>
+            </div>
+            <br /><br />
+            <button class="btn btn-primary" type="submit">Submit</button>            
+        </form>
+        
+    </div>
+</div>

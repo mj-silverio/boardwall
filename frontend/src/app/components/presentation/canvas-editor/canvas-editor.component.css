@@ -1,0 +1,18 @@
+option {
+    text-align-last: center;
+}
+
+.canvas-editor-boundary {
+    background-color: pink;
+    border: 2px dotted rgb(96 139 168);
+    display: flex;
+    align-items: stretch;
+}
+
+.editor-display, .create-display {
+    margin: 1%;
+}
+
+.modes {
+    text-align-last: center;
+}

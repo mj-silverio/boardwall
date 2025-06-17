@@ -1,0 +1,8 @@
+ <!-- From global styling -->
+<div class="sticky-note-box stack-top" cdkDragBoundary=".boards-display" [cdkDragFreeDragPosition]="freeDragPosition"
+    (cdkDragMoved)="onDragMoved($event)" (cdkDragReleased)="onDragRelease($event)" cdkDrag #myNote>     
+    <h6><b>{{noteTitle}}</b></h6>
+    <p style="font-size: 10px;" *ngIf="noteSize === 'small'">{{noteContent | limitWords: 'small' }}</p>
+    <p style="font-size: 10px;" *ngIf="noteSize === 'medium'">{{noteContent | limitWords: 'medium'}}</p>
+    <p style="font-size: 10px;" *ngIf="noteSize === 'large'">{{noteContent | limitWords: 'large' }}</p>
+</div>

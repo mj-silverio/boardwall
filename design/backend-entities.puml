@@ -1,0 +1,70 @@
+@startuml
+
+' Define UserAccount entity
+class UserAccount {
+    +id: String
+    +username: String
+    +email: String
+    +passwordHash: String
+    +createdAt: ZonedDateTime
+    +updatedAt: ZonedDateTime
+}
+
+' Define BoardWall entity
+class BoardWall {
+    +id: String
+    +name: String
+    +sharedAccounts: List<String>
+    +description: String
+    +userAccountId: String
+    +createdAt: ZonedDateTime
+    +updatedAt: ZonedDateTime
+}
+
+' Define Column entity
+class Category {
+    +id: String
+    +name: String
+    +description: String
+    +position: Integer
+    +boardWallId: String
+    +createdAt: ZonedDateTime
+    +updatedAt: ZonedDateTime
+}
+
+' Define Board entity
+class Board {
+    +id: String
+    +name: String
+    +description: String
+    +categoryId: String
+    +createdAt: ZonedDateTime
+    +updatedAt: ZonedDateTime
+}
+
+' Define StickyNote entity
+class StickyNote {
+    +id: String
+    +title: String
+    +content: String
+    +color: String
+    +position: HashMap<String,Float>
+    +size: String
+    +boardId: String
+    +createdAt: ZonedDateTime
+    +updatedAt: ZonedDateTime
+}
+
+class CanvasEditor {
+    +id: String
+}
+
+' Define relationships
+UserAccount "1..*" -- "1..*" BoardWall : accesses
+BoardWall "1" -- "1..*" Category : has
+Category "1" -- "1..*" Board : references
+Board "1" -- "0..*" StickyNote : contains
+
+CanvasEditor "1" -- "1..*" Board : displays
+
+@enduml

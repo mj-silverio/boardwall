@@ -1,0 +1,24 @@
+{
+    "id": 1,
+    "name": "board-001",
+    "description": "test board",
+    "category-id": 1,
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 2,
+    "name": "board-002",
+    "description": "test board 2",
+    "category-id": 2,
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
+{
+    "id": 3,
+    "name": "board-002",
+    "description": "test board 3",
+    "category-id": 3,
+    "createdAt": "2025-04-19T08:25:36.068916Z",
+    "updatedAt": "2025-04-19T08:25:36.068916Z"
+},
