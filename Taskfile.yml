@@ -23,8 +23,8 @@ tasks:
         git add .
         git commit -m "{{.VERSION}} {{.MESSAGE}}"
         git push -f
-        git tag -d "{{.VERSION}}"
-        git push origin --delete "{{.VERSION}}"
+        # git tag -d "{{.VERSION}}"
+        # git push origin --delete "{{.VERSION}}"
         git tag -a "{{.VERSION}}" -m "Version {{.VERSION}}"
         git push -uf origin --tags
 
