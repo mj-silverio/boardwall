@@ -25,14 +25,25 @@ DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 BASE_FRONTEND_URLS="http://localhost:4221,http://$HOST_IP:4221"
-API_URL="$HOST_IP:8888/api/v1"
+API_URL="http://$HOST_IP:8888/api/v1"
 ```
 
 There are two modes to run it:
 
 (1) Basic docker setup
-
-To start, use the following docker run command:
-
-
 (2) Docker compose setup
+
+## Contributing / Testing
+
+Create .env.dev
+```
+# SERVER_PORT=8080
+DB_HOST=localhost
+DB_PORT=8432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+BASE_FRONTEND_URLS="http://localhost:4200"
+API_URL="http://localhost:8080/api/v1"
+```
+task run:backend
+task run:frontend

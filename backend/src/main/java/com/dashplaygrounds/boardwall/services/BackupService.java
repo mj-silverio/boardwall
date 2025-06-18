@@ -64,6 +64,8 @@ public class BackupService {
 
     // Import all sticky notes according to board id
     public ResponseEntity<String> importStickyNotesByBoardId(String boardId, List<StickyNote> stickyNotes) {
+        log.info("Importing sticky notes for boardId: {}", boardId);
+        log.info("Sticky notes to import: {}", stickyNotes);
 
         List<StickyNote> existingStickyNotes = stickyNoteService.getAllStickyNotes();
         for (StickyNote stickyNote : stickyNotes) {
@@ -85,6 +87,8 @@ public class BackupService {
                 stickyNoteService.saveStickyNote(importedStickyNote);
             }
         }
-        return new ResponseEntity<String>("Success message", HttpStatus.OK);
+
+        // Return a valid JSON object instead of a plain string
+        return ResponseEntity.ok("{\"message\": \"All sticky notes imported successfully for boardId: " + boardId + "\"}");
     }
 }

@@ -24,7 +24,7 @@ public class StickyNote {
     private String id;
     private String title;
 
-    @Column(name = "content", length = 1024)
+    @Column(name = "content", length = 2048)
     private String content;
     private String color;
     private HashMap<String,Float> position;

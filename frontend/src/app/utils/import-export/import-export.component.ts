@@ -18,12 +18,13 @@ import { CustomZonedDateTimeUtil } from '../../utils/CustomZonedDateTime.util';
 })
 export class ImportExportComponent {
 
-  importedData: boolean = false;
-  exportedData: boolean = false;
   boards: any[] = [];
   boardsLength: any;
   newBoardId: string = '';
   chosenBoardIdsForExport: any[] = [];
+  isSelectedZip: boolean = false;
+  selectedZipFileName: string = '';
+  zipFile: File | null = null;
 
   myForm = new FormGroup({
     textAreaBoardInfo: new FormControl(''),
@@ -70,16 +71,28 @@ export class ImportExportComponent {
 
 
 
-  importBoardData() {
-    // this.myForm.patchValue({
-    //   textAreaBoardInfo: this.myForm.value.textAreaBoardInfo,
-    //   textAreaStickyNotesByBoardId: this.myForm.value.textAreaStickyNotesByBoardId,
-    // });
+  importBoardData(option: string) {
+    let boardInfo = null;
+    let importedStickyNotes = null;
     try {
-      const boardInfo = JSON.parse(this.myForm.value.textAreaBoardInfo || '{}');
-      const importedStickyNotes = JSON.parse(this.myForm.value.textAreaStickyNotesByBoardId || '{}');
-      console.log('Parsed board info:', boardInfo);
+      if (option === 'manual') {
+        console.log('Importing board data manually...');
+        boardInfo = JSON.parse(this.myForm.value.textAreaBoardInfo || '{}');
+        importedStickyNotes = JSON.parse(this.myForm.value.textAreaStickyNotesByBoardId || '{}');
+      } else if (option === 'program') {
+        console.log('Importing board data from local storage...');
+        // Retrieve data from local storage
+        boardInfo = JSON.parse(localStorage.getItem('importedBoardInfo'));
+        importedStickyNotes = JSON.parse(localStorage.getItem('importedStickyNotes'));
+      }
+
+      console.log('Parsed board info:', `here: ${boardInfo}`);
       console.log('Parsed sticky notes:', importedStickyNotes);
+
+      this.myForm.setValue({
+        textAreaBoardInfo: this.myForm.value.textAreaBoardInfo,
+        textAreaStickyNotesByBoardId: this.myForm.value.textAreaStickyNotesByBoardId,
+      });
 
       this.backupService.importNewBoard(boardInfo).subscribe({
         next: (createdBoard) => {
@@ -101,12 +114,123 @@ export class ImportExportComponent {
   importStickyNotesData(createdBoardId, importedStickyNotes) {
     this.backupService.importNewStickyNotesByBoardId(createdBoardId, importedStickyNotes).subscribe({
       next: (savedStickyNote) => {
-        console.log('Sticky notes saved successfully:', savedStickyNote);
+        console.log('Sticky note saved successfully:', savedStickyNote);
       },
       error: (err) => {
         console.error('Error saving sticky note:', err);
       }
     });
+  }
+
+
+  onZipFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      console.error('No file selected.');
+      return;
+    }
+    const file = input.files[0];
+    this.zipFile = file as File; // Cast to File
+    this.selectedZipFileName = file.name;
+    console.log('Selected file:', this.selectedZipFileName);
+    this.isSelectedZip = true;
+  }
+
+  importZipFile() {
+    console.log('Importing zip file:', this.selectedZipFileName);
+    if (!this.zipFile) {
+      console.error('No zip file selected.');
+      return;
+    } else {
+      console.log('Zip file is selected:', this.zipFile.name);
+    }
+    const reader = new FileReader();
+    reader.onload = async (e: any) => {
+      try {
+        const jszip = new JSZip();
+        const zip = await jszip.loadAsync(e.target.result);
+
+        // Find files in the mother zip
+        let subZipFiles: { name: string, file: JSZip.JSZipObject }[] = [];
+        zip.forEach((relativePath, zipEntry) => {
+          if (relativePath.endsWith('.zip')) {
+            subZipFiles.push({ name: relativePath, file: zipEntry });
+            console.log('Found zip inside zip:', relativePath);
+          }
+        });
+        if (subZipFiles.length === 0) {
+          console.error('No zip files found inside the selected zip file.');
+          return;
+        }
+        console.log('Sub zip files found:', subZipFiles.map(f => f.name));
+
+        // Process each sub zip file
+        let boardInfoJson = '';
+        let stickyNotesJson = '';
+        for (const subZipFile of subZipFiles) {
+          console.log('Processing sub zip file:', subZipFile.name);
+          let jsoncounter = 0;
+          let zipcounter = 0;
+          const subZipContent = await subZipFile.file.async('arraybuffer');
+          const subZip = await jszip.loadAsync(subZipContent);
+
+          try {
+            subZip.forEach((relativePath, zipEntry) => {
+              // console.log('Processing sub zip file:', subZipFile.name);
+              if (relativePath.endsWith('.json')) {
+                console.log('Processing file:', relativePath);
+
+                if (relativePath.endsWith('_info.json')) {
+                  // console.log('Processing file:', relativePath);
+                  boardInfoJson = relativePath;
+                  console.log('Processing info JSON:', boardInfoJson);
+                  zipEntry.async('string').then((infoFileContents) => {
+                    console.log('Board info file contents:', infoFileContents);
+                    localStorage.setItem('importedBoardInfo', infoFileContents);
+                  });
+                }
+                if (relativePath.endsWith('_stickynotes.json')) {
+                  // console.log('Processing file:', relativePath);
+                  stickyNotesJson = relativePath;
+                  console.log('Processing sticky notes JSON:', stickyNotesJson);
+                  zipEntry.async('string').then((stickyNotesContents) => {
+                    // console.log('Sticky notes file contents:', stickyNotesContents);
+                    localStorage.setItem('importedStickyNotes', stickyNotesContents);
+                  });
+                }
+
+                jsoncounter++;
+                console.log('JSON counter: ', jsoncounter);
+
+
+              }
+              if (relativePath.endsWith('.zip')) {
+                zipcounter++;
+                console.log('Zip counter: ', zipcounter);
+              }
+            });
+          } catch (error) {
+            console.error('Error processing sub zip file:', error);
+          } finally {
+            if (jsoncounter % 2 === 0) {
+              console.log('Importing board data...');
+              // console.log("Here3a:", localStorage.getItem('importedBoardInfo'));
+              // console.log("Here3b:", localStorage.getItem('importedStickyNotes'));
+              this.importBoardData('program');
+            }
+          }
+
+        }
+
+      } catch (error) {
+        console.error('Error importing zip file:', error);
+      } finally {
+        localStorage.removeItem('importedBoardInfo');
+        localStorage.removeItem('importedStickyNotes');
+        this.isSelectedZip = false;
+      }
+    };
+    reader.readAsArrayBuffer(this.zipFile);
   }
 
 
@@ -169,6 +293,5 @@ export class ImportExportComponent {
     });
 
   }
-
 
 }

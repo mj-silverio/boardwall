@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "get-boardwall.sh version v1.0.0"
+echo "get-boardwall.sh version v1.1.0"
 
 # Starting clean
 rm -rf *

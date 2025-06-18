@@ -47,9 +47,6 @@ public class BackupControllerV1 {
     @PostMapping("new-sticky-notes")
     public ResponseEntity<String> importNewStickyNotesByBoardId(@RequestParam String boardId,
             @RequestBody List<StickyNote> stickyNotes) {
-        log.info("Importing sticky notes with boardId: {}", stickyNotes, boardId);
-        ResponseEntity<String> result = backupService.importStickyNotesByBoardId(boardId, stickyNotes);
-        log.info("Created sticky notes: {}", result);
-        return result;
+        return backupService.importStickyNotesByBoardId(boardId, stickyNotes);
     }
 }

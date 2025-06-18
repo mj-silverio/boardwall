@@ -25,7 +25,7 @@ SQL export of board and stickynotes
 <div class="import-data">
     <h2>Import Data</h2>
 
-    <form class="form-group" [formGroup]="myForm" (ngSubmit)="importBoardData()">
+    <form class="form-group" [formGroup]="myForm" (ngSubmit)="importBoardData('manual')">
         <br /><br />
         <div *ngIf="newBoardId != null">
             <label>Board ID: <b>{{newBoardId}}</b></label>
@@ -43,3 +43,16 @@ SQL export of board and stickynotes
     </form>
 
 </div>
+<hr />
+<div class="batch-import">
+    <h2>Batch Import Data</h2><br />
+    <form>
+        <label for="zipFile">Select ZIP file:</label><br /><br />
+        <input type="file" id="zipFile" (change)="onZipFileSelected($event)" accept=".zip" />
+    </form>
+    <div *ngIf="isSelectedZip">
+        <h6>Selected file: <b>{{ selectedZipFileName }}</b></h6>
+        <button class="btn btn-primary" (click)="importZipFile()">Import ZIP</button>
+    </div>
+</div>
+<br /><br />

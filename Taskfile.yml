@@ -1,9 +1,10 @@
 version: '3'
 
 env:
-  VERSION: "v1.0.0"
+  VERSION: "v1.1.0"
   MESSAGE: |
-    * Initial release of Boardwall
+    * updated Dockerfile
+    * Batch import
 
   DB_HOST: "localhost"
   DB_PORT: "8432"
@@ -22,8 +23,8 @@ tasks:
         git add .
         git commit -m "{{.VERSION}} {{.MESSAGE}}"
         git push -f
-        # git tag -d "{{.VERSION}}"
-        # git push origin --delete "{{.VERSION}}"
+        git tag -d "{{.VERSION}}"
+        git push origin --delete "{{.VERSION}}"
         git tag -a "{{.VERSION}}" -m "Version {{.VERSION}}"
         git push -uf origin --tags
 
@@ -32,6 +33,12 @@ tasks:
     dir: frontend
     dotenv: ['../.env.dev']
     cmds:
+      - |
+        if [ -d node_modules ]; then
+          echo "node_modules already exists, skipping installation"
+        else
+          yarn install --frozen-lockfile
+        fi
       - yarn run start:dev
 
   run:backend:
@@ -85,6 +92,7 @@ tasks:
       ARCH: "amd64"
     cmds:
       - |
+        HOST_IP=$(hostname -I | awk '{print $1}')
         cp .env.2 .env
         mv frontend/node_modules .
         # docker stop boardwall-aio-${ARCH}-2

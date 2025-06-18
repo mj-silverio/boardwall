@@ -1,10 +1,11 @@
 # Stage 1: Build Angular app # ng and yarn included
 FROM node:24-alpine AS angular-build 
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY frontend/package.json ./
+COPY frontend/yarn.lock ./
+RUN yarn install --frozen-lockfile
 COPY frontend/ .
 COPY .env .
-RUN yarn install
 RUN yarn run prebuild
 RUN yarn run build:prod
 RUN rm .env
