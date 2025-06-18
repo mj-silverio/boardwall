@@ -214,6 +214,8 @@ export class ImportExportComponent {
           } finally {
             if (jsoncounter % 2 === 0) {
               console.log('Importing board data...');
+              localStorage.getItem('importedBoardInfo');
+              localStorage.getItem('importedStickyNotes');
               // console.log("Here3a:", localStorage.getItem('importedBoardInfo'));
               // console.log("Here3b:", localStorage.getItem('importedStickyNotes'));
               this.importBoardData('program');
