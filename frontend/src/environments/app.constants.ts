@@ -1,5 +1,5 @@
 export const Constants = {
-    APP_VERSION: "v1.1.0",
+    APP_VERSION: "v1.1.1",
     APP_NAME: "Boardwall",
     APP_DESCRIPTION: "Breaking down information, turning ideas into actionable insights.",
     APP_LOGO: "assets/images/logo.png",

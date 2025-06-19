@@ -1,7 +1,7 @@
 version: '3'
 
 env:
-  VERSION: "v1.1.0"
+  VERSION: "v1.1.1"
   MESSAGE: |
     * updated Dockerfile
     * Batch import
