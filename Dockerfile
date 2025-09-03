@@ -2,7 +2,7 @@
 FROM node:24-alpine AS angular-build 
 WORKDIR /app
 COPY frontend/package.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY frontend/ .
 COPY .env .
 RUN npm run prebuild
