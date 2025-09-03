@@ -142,15 +142,16 @@ docker buildx build \
 sleep 5
 
 echo "Running boardwall-aio container..."
-docker run -d \
-    --name boardwall-app \
-    --hostname boardwall-1 \
-    -p 4221:80 \
-    -p 8888:8080 \
-    --env-file ./.env.1 \
-    --network pnet \
-    --restart always \
-    ${IMAGE_NAME}
+# docker run -d \
+#     --name boardwall-app \
+#     --hostname boardwall-1 \
+#     -p 4221:80 \
+#     -p 8888:8080 \
+#     --env-file ./.env.1 \
+#     --network pnet \
+#     --restart always \
+#     ${IMAGE_NAME}
+docker compose -f docker-compose-1.yml up -d
 
 echo "Boardwall containers are now running."
 echo "You can access the Boardwall application at http://$HOST_IP:4221"
