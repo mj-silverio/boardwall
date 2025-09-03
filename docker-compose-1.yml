@@ -1,6 +1,6 @@
 services:
   boardwall-1:
-    image: boardwall-aio:latest-${ARCH}
+    image: boardwall-aio:${VERSION}-${ARCH}
     container_name: boardwall-aio-${ARCH}-1
     ports:
       - "4221:80"
