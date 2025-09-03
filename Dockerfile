@@ -1,13 +1,12 @@
-# Stage 1: Build Angular app # ng and yarn included
+# Stage 1: Build Angular app # ng and npm included
 FROM node:24-alpine AS angular-build 
 WORKDIR /app
 COPY frontend/package.json ./
-COPY frontend/yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN npm install
 COPY frontend/ .
 COPY .env .
-RUN yarn run prebuild
-RUN yarn run build:prod
+RUN npm run prebuild
+RUN npm run build:prod
 RUN rm .env
 
 # Stage 2: Build Spring Boot app
@@ -28,4 +27,4 @@ WORKDIR /app/frontend/
 COPY --from=angular-build /app/dist/boardwall/browser .
 COPY package.json .
 EXPOSE 80 8080
-ENTRYPOINT ["yarn", "run", "run-services"]
+ENTRYPOINT ["npm", "run", "run-services"]
