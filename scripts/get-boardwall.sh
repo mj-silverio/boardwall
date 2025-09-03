@@ -1,6 +1,6 @@
 #!/bin/bash
-
-echo "get-boardwall.sh version v1.1.1"
+VERSION=v1.1.1
+echo "get-boardwall.sh version $VERSION"
 
 # Starting clean
 rm -rf *
@@ -133,11 +133,13 @@ else
 fi
 
 ARCH="amd64"
-IMAGE_NAME="dmarks629/boardwall-aio:latest-${ARCH}"
+IMAGE_NAME="boardwall-aio"
 docker buildx build \
     --platform linux/${ARCH} \
     --load \
-    -t ${IMAGE_NAME} -f Dockerfile .
+    -t ${IMAGE_NAME}:latest-${ARCH} \
+    -t ${IMAGE_NAME}:$VERSION-${ARCH}
+    -f Dockerfile .
 
 sleep 5
 
