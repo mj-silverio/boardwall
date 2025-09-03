@@ -1,5 +1,5 @@
 #!/bin/bash
-export VERSION=v1.1.1
+VERSION=v1.1.1
 echo "get-boardwall.sh version $VERSION"
 
 # Starting clean
@@ -132,7 +132,7 @@ else
     echo "Buildx builder 'mybuilder' already exists. Skipping creation."
 fi
 
-export ARCH="amd64"
+ARCH="amd64"
 IMAGE_NAME="boardwall-aio"
 docker buildx build \
     --platform linux/${ARCH} \
