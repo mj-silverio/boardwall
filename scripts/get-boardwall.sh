@@ -138,8 +138,7 @@ docker buildx build \
     --platform linux/${ARCH} \
     --load \
     -t ${IMAGE_NAME}:latest-${ARCH} \
-    -t ${IMAGE_NAME}:$VERSION-${ARCH} \
-    -f Dockerfile .
+    -t ${IMAGE_NAME}:$VERSION-${ARCH} -f Dockerfile .
 
 sleep 5
 
